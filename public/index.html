@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang='en' style="scroll-behavior: smooth">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous"/>
+  </head>
+  <body>
+    <div class='container-fluid' style="margin-top: 2rem">
+      <div class="row">
+        <nav class="col-md-offset-4 col-md-4 well">
+          <div>
+            <a href="new-task-form">Tasks</a>
+          </div>
+          <div>
+            <a href="#signup-form">Sign up</a>
+          </div>
+          <div>
+            <a href="#login-form">Log in</a>
+          </div>
+        </nav>
+      </div>
+      <!-- New Task Form -->
+      <div id='new-task-form-container' style="display: none">
+      <div class='row'>
+        <div class='col-md-offset-4 col-md-4 well' style="padding-top: 0px">
+          <h2 class='text-center' style="padding-bottom: 2rem">Tasks</h2>
+          <form id='new-task-form'>
+            <div class='form-group'>
+              <input class='form-control' id='new-task' placeholder='New task' required>
+            </div>
+              <button class='btn btn-block btn-primary' id='submit-btn' type='submit'>Submit</button>
+          </form>
+        </div>
+      </div>
+      <!-- i -->
+      <div class='row' id='i-container'>
+        <div class="col-md-offset-4 col-md-4 well">
+          <h4>Unsorted:</h4>
+          <div class="'well">
+            <ol id="unsorted-tasks-ol"></ol>
+          </div>
+          <hr>
+          <button class="btn btn-default btn-xs" id="i-btn"><em>i</em></button>
+        </div>
+      </div>
+    </div>
+      <!-- Sign up or Login in -->
+      <div class="row text-center" id='signup-or-login-div' style="margin-bottom: 2rem; display: none">
+        <div class="col-md-offset-4 col-md-4">
+          <h4><a href='/signup'>Sign up</a> to use our premium features.</h4>
+          <hr>
+          <h5>Already have an account? <a href='/login'>Log in</a></p>
+        </div>
+      </div>
+      <!-- Signup Form -->
+      <div class="row text-center" id='signup-form-container' style="display: none">
+        <div class="col-md-offset-4 col-md-4 well" style="padding-top: 0px">
+          <h2 style="padding-bottom: 2rem">Sign up</h2>
+          <form id="signup-form">
+            <div class="form-group">
+              <input class="form-control" id='newEmail' placeholder="Email" type="email" required>
+            </div>
+            <div class="form-group">
+              <input class="form-control" id="newFirstName" placeholder="First Name" type="text" required>
+            </div>
+            <div class="form-group">
+              <input class="form-control" id="newLastName" placeholder="Last Name" type="text" required>
+            </div>
+            <div class="form-group">
+              <input class="form-control" id="newUsername" placeholder="Username" type="text" required>
+            </div>
+            <div class="form-group">
+              <input class="form-control" id="newPassword" placeholder="Password" type="password" required>
+            </div>
+            <button class="btn btn-block btn-primary" type="submit">Sign up</button>
+            <hr>
+            <h5>Already have an account? <a href='#login-form'>Log in</a></p>
+          </form>
+          </div>
+        </div>
+        <!-- Login Form -->
+        <div class="row text-center" id="login-form-container" style="display: block">
+          <div class="col-md-offset-4 col-md-4 well" style="padding-top: 0px">
+            <h2 style="padding-bottom: 2rem">Log in</h2>
+            <form id="login-form">
+              <div class="form-group">
+                <input class="form-control" id='username' placeholder="Username" type="text" required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" id='password' placeholder="Password" type="password" required>
+              </div>
+              <button class="btn btn-block btn-primary" type="submit">Log in</button>
+              <hr>
+              <h5>Don't have an account? <a href='#signup-form'>Sign up</a></h5>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>  
+    <script>
+      let users = [{ id: 1, email: 'user1@email.com', firstName: 'Lil', lastName: 'JJ', username: 'user1', password: 'pass1' }];
+      let tasks = [];
+      
+      document.getElementById('new-task-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let newTask = document.getElementById('new-task').value;
+        let unsortedTasksOl = document.getElementById('unsorted-tasks-ol');
+        let newTaskLi = document.createElement('li');
+        let newObj = { id: tasks.length, desc: newTask };
+        
+        tasks.push(newObj);
+
+        newTaskLi.innerText = newTask;
+        unsortedTasksOl.appendChild(newTaskLi);
+
+        document.getElementById('new-task').value = '';
+        document.getElementById('new-task').focus();
+
+        console.log('new task created');
+      });
+
+      document.getElementById('i-btn').addEventListener('click', function(e) {
+        console.log('i-click');
+
+        document.getElementById('signup-or-login-div').style.display = 'block';
+      });
+
+      document.getElementById('signup-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        let newId = users.length;
+        let newEmail = document.getElementById('newEmail').value;
+        let newFirstName = document.getElementById('newFirstName').value;
+        let newLastName = document.getElementById('newLastName').value;
+        let newUsername = document.getElementById('newUsername').value;
+        let newPassword = document.getElementById('newPassword').value;
+        let newObj = {
+          id: newId,
+          email: newEmail,
+          firstName: newFirstName,
+          lastName: newLastName,
+          username: newUsername,
+          password: newPassword
+        };
+
+        users.push(newObj);
+
+        document.getElementById('signup-form-container').style.display = 'none';
+
+        console.log('signup successful');
+        console.log('users:', users);
+      });
+
+      document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+      
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].username == username && users[i].password == password) {
+
+            username = '';
+            passord = '';
+            document.getElementById('username').focus();
+
+            document.getElementById('login-form-container').style.display = 'none';
+            document.getElementById('new-task-form-container').style.display = 'block';
+            document.getElementById('')
+
+            console.log('login successful');
+          } else {
+            alert('The username or password you entered was incorrect. Please try logging in again.');
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
